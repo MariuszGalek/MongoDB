@@ -7,7 +7,6 @@ mongoose.connect('mongodb://MariuszGalek:54321@ds227858.mlab.com:27858/database-
     useMongoClient: true
 });
 
-//new user Schema
 const userSchema = new Schema({
     name: String,
     username: { type: String, required: true, unique: true },
@@ -17,14 +16,12 @@ const userSchema = new Schema({
     updated_at: Date
 });
 
-//Mongoose schema method
 userSchema.methods.manify = function(next) {
     this.name = this.name + '-boy';
 
     return next(null, this.name);
 };
 
-//pre-save method
 userSchema.pre('save', function(next) {
     const currentDate = new Date();
     this.updated_at = currentDate;
@@ -45,12 +42,12 @@ const kenny = new User({
 
 kenny.manify(function(err, name) {
     if (err) throw err;
-    console.log('Twoje nowe imię to: ' + name);
+    console.log('Your new name is: ' + name);
 });
 
 kenny.save(function(err) {
     if (err) throw err;
-    console.log('Uzytkownik ' + kenny.name + ' zapisany pomyslnie');
+    console.log('User ' + kenny.name + ' has been recorded');
 });
 
 const benny = new User({
@@ -61,12 +58,12 @@ const benny = new User({
 
 benny.manify(function(err, name) {
     if (err) throw err;
-    console.log('Twoje nowe imię to: ' + name);
+    console.log('Your new name is: ' + name);
 });
 
 benny.save(function(err) {
     if (err) throw err;
-    console.log('Uzytkownik ' + benny.name +  ' zapisany pomyslnie');
+    console.log('User ' + benny.name +  ' has been recorded');
 });
 
 const mark = new User({
@@ -77,16 +74,15 @@ const mark = new User({
 
 mark.manify(function(err, name) {
     if (err) throw err;
-    console.log('Twoje nowe imię to: ' + name);
+    console.log('Your new name is: ' + name);
 });
 
 mark.save(function(err) {
     if (err) throw err;
-    console.log('Uzytkownik ' + mark.name +  ' zapisany pomyslnie');
+    console.log('User ' + mark.name +  ' has been recorded');
 });
 
 const findAllUsers = function() {
-    // find all users
     return User.find({}, function(err, res) {
         if (err) throw err;
         console.log('Actual database records are ' + res);
@@ -94,7 +90,6 @@ const findAllUsers = function() {
 }
 
 const findSpecificRecord = function() {
-    // find specific record
     return User.find({ username: 'Kenny_the_boy' }, function(err, res) {
         if (err) throw err;
         console.log('Record you are looking for is ' + res);
@@ -102,7 +97,6 @@ const findSpecificRecord = function() {
 }
 
 const updadeUserPassword = function() {
-    // update user password
     return User.findOne({ username: 'Kenny_the_boy' })
         .then(function(user) {
             console.log('Old password is ' + user.password);
@@ -112,22 +106,20 @@ const updadeUserPassword = function() {
             return user.save(function(err) {
                 if (err) throw err;
 
-                console.log('Uzytkownik ' + user.name + ' zostal pomyslnie zaktualizowany');
+                console.log('User ' + user.name + ' successfully updated');
             })
         })
 }
 
 const updateUsername = function() {
-    // update username
     return User.findOneAndUpdate({ username: 'Benny_the_boy' }, { username: 'Benny_the_man' }, function(err, user) {
         if (err) throw err;
 
-        console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
+        console.log('User name after update is ' + user.username);
     })
 }
 
 const findMarkAndDelete = function() {
-    // find specific user and delete
     return User.findOne({ username: 'Mark_the_boy' })
         .then(function(user) {
             return user.remove(function() {
@@ -137,7 +129,6 @@ const findMarkAndDelete = function() {
 }
 
 const findKennyAndDelete = function() {
-    // find specific user and delete
     return User.findOne({ username: 'Kenny_the_boy' })
         .then(function(user) {
             return user.remove(function() {
@@ -147,7 +138,6 @@ const findKennyAndDelete = function() {
 }
 
 const findBennyAndRemove = function() {
-    // find specific user and delete
     return User.findOneAndRemove({ username: 'Benny_the_man' })
         .then(function(user) {
             return user.remove(function() {
