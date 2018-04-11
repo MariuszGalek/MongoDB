@@ -45,11 +45,6 @@ kenny.manify(function(err, name) {
     console.log('Your new name is: ' + name);
 });
 
-kenny.save(function(err) {
-    if (err) throw err;
-    console.log('User ' + kenny.name + ' has been recorded');
-});
-
 const benny = new User({
     name: 'Benny',
     username: 'Benny_the_boy',
@@ -61,11 +56,6 @@ benny.manify(function(err, name) {
     console.log('Your new name is: ' + name);
 });
 
-benny.save(function(err) {
-    if (err) throw err;
-    console.log('User ' + benny.name +  ' has been recorded');
-});
-
 const mark = new User({
     name: 'Mark',
     username: 'Mark_the_boy',
@@ -75,11 +65,6 @@ const mark = new User({
 mark.manify(function(err, name) {
     if (err) throw err;
     console.log('Your new name is: ' + name);
-});
-
-mark.save(function(err) {
-    if (err) throw err;
-    console.log('User ' + mark.name +  ' has been recorded');
 });
 
 const findAllUsers = function() {
@@ -96,7 +81,7 @@ const findSpecificRecord = function() {
     })
 }
 
-const updadeUserPassword = function() {
+const updateUserPassword = function() {
     return User.findOne({ username: 'Kenny_the_boy' })
         .then(function(user) {
             console.log('Old password is ' + user.password);
@@ -149,7 +134,7 @@ const findBennyAndRemove = function() {
 Promise.all([kenny.save(), mark.save(), benny.save()])
     .then(findAllUsers)
     .then(findSpecificRecord)
-    .then(updadeUserPassword)
+    .then(updateUserPassword)
     .then(updateUsername)
     .then(findMarkAndDelete)
     .then(findKennyAndDelete)
